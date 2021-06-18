@@ -180,7 +180,10 @@ class _HomePageState extends State<HomePage> {
                         onPressed: list[index] == 0
                             ? () {}
                             : () {
-                                bloc.addToCart(item);
+                                bloc.mapValue
+                                    ? showAlertDialog(context,
+                                        'You can only book maximum 3 classes per week')
+                                    : bloc.addToCart(item);
                                 list[index]--;
                                 setState(() {});
                               },
@@ -200,4 +203,33 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+showAlertDialog(
+  BuildContext context,
+  String title,
+) {
+  // set up the buttons
+  Widget cancelButton = IconButton(
+    icon: Icon(Icons.done_outline),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text(title),
+    actions: [
+      cancelButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
